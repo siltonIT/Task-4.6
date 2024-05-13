@@ -44,7 +44,7 @@ public:
 private:
 	//для перехода в сторичную сиситему изменить на 100
 	//стоит 10 так как ндао вычислисть 100 факториал в десятичной
-	static const size_t _BASE = 100;
+	static const size_t _BASE = 10;
 	size_t _amount_digits;
 	
 	int* _digits;

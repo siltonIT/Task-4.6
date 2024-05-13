@@ -1,14 +1,15 @@
 #include "BigInt.h"
 
 std::ostream& operator<<(std::ostream& os, const BigInt& num) {
-	size_t start_num = 0;
-	for(size_t i = 0; i < num._amount_digits; ++i)
-		if(num._digits[i] != 0)
-			start_num = i;
+	bool is_number = false;
+	for(int i = num._amount_digits - 1; i >= 0; --i) {
+		if(num._digits[i] == 0 && !is_number)
+			continue;
 
-	for(int i = start_num; i >= 0; --i)
+		is_number = true;
 		os << num._digits[i];
 
+	}
 	return os;
 }
 
@@ -23,7 +24,7 @@ std::istream& operator>>(std::istream& is, BigInt& num) {
 	for(size_t i = 0; i < num._amount_digits; ++i)
 		num._digits[i] = 0;
 
-	for(size_t i = 0; i < num_size - 1; ++i) 
+	for(size_t i = 0; i < num_size; ++i) 
 		num._digits[num_size - i - 1] += new_num[i] - '0';
 	
 	delete[] new_num;
@@ -61,6 +62,8 @@ BigInt::BigInt(size_t num): BigInt() {
 		_digits[next++] = num % _BASE;
 		num /= _BASE;
 	}
+
+	_amount_digits = next;
 }
 
 BigInt::BigInt(const BigInt& other): _amount_digits(other._amount_digits), _digits(new int[_amount_digits]) {
